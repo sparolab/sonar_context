@@ -34,7 +34,7 @@ class MainParser():
         self.parser.add_argument('--row_threshold',          type=float, default='', help = 'Threshold of row shifting')
         self.parser.add_argument('--img_dir',                type=str,   default='', help = 'Folder path of Encoded Polar Image')
         self.parser.add_argument('--pose_base_dir',          type=str,   default='', help = 'Path of Pose-csv')
-        self.parser.add_argument('--exclude_recent_nodes',   type=int,   default='', help = 'Recently visited nodes')              
+        self.parser.add_argument('--exclude_recent_nodes',   type=int,   default='', help = 'Recently visited nodes number')              
         self.parser.add_argument('--sc',                     type=str,   default='', help = 'Path of sonar context')              
         self.parser.add_argument('--pk',                     type=str,   default='', help = 'Path of polar key')              
         self.parser.add_argument('--csvx',                   type=int,   default='', help = 'Global x in pose-csv')              

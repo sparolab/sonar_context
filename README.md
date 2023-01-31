@@ -11,7 +11,7 @@ efficient loop closure detection.
 	* The descriptor is robust for rotational and translational differences by adaptive shifting and matching algorithms.
 	 ![main_fig](https://user-images.githubusercontent.com/68933951/215500050-c1974c55-10e0-494b-8a0f-a6c9d0cd30dd.png)
 
-* **Author**
+* **Author & Contributor**
 	* **Hogyun Kim, Gilhwan Kang, Seungjun Ma, Seokhwan Jeong and Younggun Cho**  
 	
 	
@@ -35,14 +35,14 @@ efficient loop closure detection.
 ## How to use sonar context?
 **0. Requirements** 
   * [minisam](https://minisam.readthedocs.io/)
-    * C++ compile and installation
-		* Python installation  
+  	* C++ compile and installation
+  	* Python installation  
 
 
 **1. Download sonar context**
 <pre>
 <code>
-    git clone https://github.com/sparolab/sonar_context.git
+    $ git clone https://github.com/sparolab/sonar_context.git
 </code>
 </pre>  
 
@@ -50,44 +50,41 @@ efficient loop closure detection.
 **2. Generate sonar context and polar key**
   * Modify the **patch size** parameters to fit your datasets in the img2scpk.py.
 	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
-
-'''bash
+<pre>
+<code>
     $ cd sonar_context/generate/
     $ python3 img2scpk.py
-'''
+</code>
+</pre>  
 
+**3. Method**
+* Create your **.txt file** similar to holoocean.txt and modify the parameters to fit your datasets.
 
-**3.1 Place Recognition**
-	* Create your **.txt file** similar to holoocean.txt and modify the parameters to fit your datasets.
-
+* **3.1 Place Recognition**
 <pre>
 <code>
-    **cd** sonar_context/place_recognition/
-    **python3** main **your_dataset.txt**
+    $ cd sonar_context/place_recognition/
+    $ python3 main holoocean.txt
 </code>
 </pre>  
 	
 	
-**3.2 Pose graph slam**
+* **3.2 Pose graph slam**
 <pre>
 <code>
-    **cd** sonar_context/pose_graph_slam/
-    **python3** main **your_dataset.txt**
+    $ cd sonar_context/pose_graph_slam/
+    $ python3 main your_dataset.txt
 </code>
 </pre>  
 
 
-## Contributor
+## Contact
 * Hogyun Kim (12170550@inha.edu)
-* Gilhwan Kang (22222151@inha.edu)
-* Seungjun Ma (richard7714@inha.edu)
-* Seokhwan Jeong (12171433@inha.edu)
-* Younggun Cho (yg.cho@inha.ac.kr)  
 
 
 ## Supplementary
-* **Supplementary materials are available at https://sites.google.com/view/sonarcontext**
-* **Submission video is available at https://www.youtube.com/watch?v=uOL938d4bZk**
+* **[Supplementary materials](https://sites.google.com/view/sonarcontext)**
+* **[Submission video](https://www.youtube.com/watch?v=uOL938d4bZk)**
 
 
 ## Cite Sonar Context
