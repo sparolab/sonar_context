@@ -48,44 +48,47 @@ efficient loop closure detection.
 
 
 **2. Generate sonar context and polar key**
-  * Modify the **patch size** in the /generate/img2sc_and_pk.py.
+  * Modify the **patch size** parameters to fit your datasets in the img2scpk.py.
 	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
 <pre>
 <code>
-    cd ~/your_workspace/generate/
-    python3 img2sc_and_pk.py
+    **cd** sonar_context/generate/
+    **python3** img2scpk.py
 </code>
 </pre>  
 
 
-* **Set a path of sonar context and polar key dataset.txt**
-	* In 14, 15 line, you edit your sonar context and polar key folder path to input. 
+**3.1 Place Recognition**
+	* Create your **.txt file** similar to holoocean.txt and modify the parameters to fit your datasets.
 
 <pre>
 <code>
-    cd ~/your_workspace/scripts/place_recognition/
-    cd ~/your_workspace/scripts/pose_graph_slam/
-    vi datasets.txt
+    **cd** sonar_context/place_recognition/
+    **python3** main **your_dataset.txt**
 </code>
 </pre>  
 	
 	
-* **Place recognition**
+**3.2 Pose graph slam**
 <pre>
 <code>
-    cd ~/your_workspace/Sonar_Context/scripts/place_recognition/
-    python3 main.py dataset.txt	
+    **cd** sonar_context/pose_graph_slam/
+    **python3** main **your_dataset.txt**
 </code>
 </pre>  
-	
-	
-* **Pose graph slam**
-<pre>
-<code>
-    cd ~/your_workspace/Sonar_Context/scripts/pose_graph_slam/
-    python3 main.py dataset.txt
-</code>
-</pre>  
+
+
+## Contributor
+* Hogyun Kim (12170550@inha.edu)
+* Gilhwan Kang (22222151@inha.edu)
+* Seungjun Ma (richard7714@inha.edu)
+* Seokhwan Jeong (12171433@inha.edu)
+* Younggun Cho (yg.cho@inha.ac.kr)  
+
+
+## Supplementary
+* **Supplementary materials are available at https://sites.google.com/view/sonarcontext**
+* **Submission video is available at https://www.youtube.com/watch?v=uOL938d4bZk**
 
 
 ## Cite Sonar Context
@@ -119,6 +122,20 @@ efficient loop closure detection.
 
 <pre>
 <code>
+@inproceedings{jang2021multi,
+  title={Multi-session underwater pose-graph slam using inter-session opti-acoustic two-view factor},
+  author={Jang, Hyesu and Yoon, Sungho and Kim, Ayoung},
+  booktitle={2021 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={11668--11674},
+  year={2021},
+  organization={IEEE}
+}
+</code>
+</pre>  
+
+
+<pre>
+<code>
 @article{dos2022cross,
   title={Cross-view and cross-domain underwater localization based on optical aerial and acoustic underwater images},
   author={Dos Santos, Matheus M and De Giacomo, Giovanni G and Drews-Jr, Paulo LJ and Botelho, Silvia SC},
@@ -131,15 +148,3 @@ efficient loop closure detection.
 }
 </code>
 </pre>  
-
-
-## Contributor
-* Hogyun Kim (12170550@inha.edu)
-* Gilhwan Kang (22222151@inha.edu)
-* Seungjun Ma (richard7714@inha.edu)
-* Seokhwan Jeong (12171433@inha.edu)
-* Younggun Cho (yg.cho@inha.ac.kr)  
-
-
-## Supplementary
-* **Supplementary materials are available at https://sites.google.com/view/sonarcontext**
