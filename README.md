@@ -33,23 +33,23 @@ efficient loop closure detection.
 
   
 ## How to use sonar context?
-* **Requirements** 
-	* [minisam](https://minisam.readthedocs.io/)
-		* C++ compile and installation
+**0. Requirements** 
+  * [minisam](https://minisam.readthedocs.io/)
+    * C++ compile and installation
 		* Python installation  
-		
-* **Download sonar context**
-	* In your workspace,
+
+
+**1. Download sonar context**
 <pre>
 <code>
-    https://github.com/sparolab/sonar_context.git
+    git clone https://github.com/sparolab/sonar_context.git
 </code>
 </pre>  
 
 
-* **Set a path of image folder**
-	* In 14 line of code, you put your image folder path to input. 
-	* In 59, 60 line of code, you put your image folder path to output. 
+**2. Generate sonar context and polar key**
+  * Modify the **patch size** in the /generate/img2sc_and_pk.py.
+	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
 <pre>
 <code>
     cd ~/your_workspace/generate/
