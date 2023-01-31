@@ -52,8 +52,10 @@ efficient loop closure detection.
 	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
 <pre>
 <code>
-    **cd** sonar_context/generate/
-    **python3** img2scpk.py
+'''bash
+    $ cd sonar_context/generate/
+    $ python3 img2scpk.py
+'''
 </code>
 </pre>  
 
