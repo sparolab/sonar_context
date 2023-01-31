@@ -12,7 +12,7 @@ efficient loop closure detection.
 	 ![main_fig](https://user-images.githubusercontent.com/68933951/215500050-c1974c55-10e0-494b-8a0f-a6c9d0cd30dd.png)
 
 * **Author & Contributor**
-	* **Hogyun Kim, Gilhwan Kang, Seungjun Ma, Seokhwan Jeong and Younggun Cho**  
+	* Hogyun Kim, Gilhwan Kang, Seungjun Ma, Seokhwan Jeong and Younggun Cho  
 	
 	
 
@@ -58,7 +58,7 @@ efficient loop closure detection.
 </pre>  
 
 **3. Method**
-* Create your **.txt file** similar to holoocean.txt and modify the parameters to fit your datasets.
+* Create your **datasets.txt file** similar to examples.txt and modify the parameters to fit your datasets.
 
 * **3.1 Place Recognition**
 <pre>
@@ -73,7 +73,7 @@ efficient loop closure detection.
 <pre>
 <code>
     $ cd sonar_context/pose_graph_slam/
-    $ python3 main your_dataset.txt
+    $ python3 main datasets.txt
 </code>
 </pre>  
 

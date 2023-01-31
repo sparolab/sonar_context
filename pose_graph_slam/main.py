@@ -49,8 +49,6 @@ class MainParser():
         self.parser.add_argument('--sc_col',                 type=int,   default='', help = 'column size of sonar context')              
         self.parser.add_argument('--sc_row',                 type=int,   default='', help = 'row size of sonar context')              
         self.parser.add_argument('--pk',                     type=str,   default='', help = 'Path of polar key') 
-        self.parser.add_argument('--csvx',                   type=int,   default='', help = 'Global x in csv')              
-        self.parser.add_argument('--csvy',                   type=int,   default='', help = 'Global x in csv')              
 
     def convert_arg_line_to_args(self, arg_line):
         for arg in arg_line.split():

@@ -6,6 +6,6 @@
 --pose_base_dir ../Datasets/HOLOOCEAN/pose/pose.csv
 --exclude_recent_nodes 30
 --sc ../Datasets/HOLOOCEAN/SC/{}.npy
---pk ../Datasets/HOLOOCEAN/RK/{}.npy
+--pk ../Datasets/HOLOOCEAN/PK/{}.npy
 --csvx 3
 --csvy 7
