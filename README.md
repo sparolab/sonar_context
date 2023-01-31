@@ -50,14 +50,11 @@ efficient loop closure detection.
 **2. Generate sonar context and polar key**
   * Modify the **patch size** parameters to fit your datasets in the img2scpk.py.
 	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
-<pre>
-<code>
+
 '''bash
     $ cd sonar_context/generate/
     $ python3 img2scpk.py
 '''
-</code>
-</pre>  
 
 
 **3.1 Place Recognition**
