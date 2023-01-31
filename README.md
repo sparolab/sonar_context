@@ -22,7 +22,7 @@ efficient loop closure detection.
 	![sonar_context](https://user-images.githubusercontent.com/68933951/201089338-ed06170f-0d81-44df-86e4-81a417588374.gif)
 		
 ## Datasets
-![datasets-1](https://user-images.githubusercontent.com/68933951/215675749-5a6da47e-5379-4b3e-a4a2-c5585035fc2b.png)
+![datasets-1 (1)](https://user-images.githubusercontent.com/68933951/215676213-8672d0df-17d5-4fd5-98b6-b8454543dd50.png)
 
 * **[HOLOOCEAN](https://holoocean.readthedocs.io/en/latest/usage/usage.html)**
 	* [googledrive](https://drive.google.com/drive/folders/1tPEZzdvOCRTILfkeq2X0KLuOM3v53kQL?usp=sharing)
