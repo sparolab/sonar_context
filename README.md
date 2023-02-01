@@ -35,20 +35,19 @@ efficient loop closure detection.
 
   
 ## How to use sonar context?
-**0. Requirements** 
-  * We implement our place recognition method in python3. 
+**0. Download sonar context**
 <pre>
 <code>
-    $ pip3 install -r requirements.txt
+    $ git clone https://github.com/sparolab/sonar_context.git
 </code>
 </pre>  
 
 
-
-**1. Download sonar context**
+**1. Requirements** 
+  * We implement our place recognition method in python3. 
 <pre>
 <code>
-    $ git clone https://github.com/sparolab/sonar_context.git
+    $ pip3 install -r requirements.txt
 </code>
 </pre>  
 
