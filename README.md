@@ -36,9 +36,13 @@ efficient loop closure detection.
   
 ## How to use sonar context?
 **0. Requirements** 
-  * [minisam](https://minisam.readthedocs.io/)
-  	* C++ compile and installation
-  	* Python installation  
+  * We implement our place recognition method in python3. 
+<pre>
+<code>
+    $ pip3 install -r requirements.txt
+</code>
+</pre>  
+
 
 
 **1. Download sonar context**
