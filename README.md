@@ -59,10 +59,9 @@ efficient loop closure detection.
 </code>
 </pre>  
 
-**3. Method**
+**3. Place Recognition and Localization**
 * Create your **datasets.txt file** similar to examples.txt and modify the parameters to fit your datasets.
 
-* **3.1 Place Recognition**
 <pre>
 <code>
     $ cd sonar_context/place_recognition/
@@ -70,22 +69,12 @@ efficient loop closure detection.
 </code>
 </pre>  
 	
-	
-* **3.2 Pose graph slam**
-<pre>
-<code>
-    $ cd sonar_context/pose_graph_slam/
-    $ python3 main datasets.txt
-</code>
-</pre>  
-
 
 ## Contact
 * Hogyun Kim (12170550@inha.edu)
 
 
 ## Supplementary
-* **[Supplementary materials](https://sites.google.com/view/sonarcontext)**
 * **[Submission video](https://www.youtube.com/watch?v=uOL938d4bZk)**
 
 
