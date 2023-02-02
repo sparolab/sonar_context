@@ -18,8 +18,7 @@ efficient loop closure detection.
 
 ## Overview of our method
 * **Place Recognition & Pose Graph SLAM in Aracati 2017 Datasets**
-	* We provide the code of place recognition and pose graph slam version, respectively. 
-	![sonar_context](https://user-images.githubusercontent.com/68933951/201089338-ed06170f-0d81-44df-86e4-81a417588374.gif)
+![sonar_context](https://user-images.githubusercontent.com/68933951/201089338-ed06170f-0d81-44df-86e4-81a417588374.gif)
 		
 ## Datasets
 ![datasets-1 (1)](https://user-images.githubusercontent.com/68933951/215676213-8672d0df-17d5-4fd5-98b6-b8454543dd50.png)
