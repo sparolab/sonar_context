@@ -77,7 +77,7 @@ efficient loop closure detection.
 
 
 ## Supplementary
-* **[Submission video](https://www.youtube.com/watch?v=uOL938d4bZk)**
+* **[Submission video](https://www.youtube.com/watch?v=JRD_xuqtHZU)**
 
 
 ## Cite Sonar Context
