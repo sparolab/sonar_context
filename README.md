@@ -73,7 +73,7 @@ efficient loop closure detection.
 	
 
 ## Contact
-* Hogyun Kim (12170550@inha.edu)
+* Hogyun Kim (hg.kim@inha.edu)
 
 
 ## Supplementary
