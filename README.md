@@ -1,7 +1,7 @@
 ## Sonar Context
 * **Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments**
 	* Submitted to ICRA 2023
-
+	* Our paper is available at [arxiv](https://arxiv.org/abs/2305.14773)
 
 * **What is Sonar Context and polar key?**
 	* Sonar context is a global descriptor, which encodes geometric characteristics of underwater environments.
