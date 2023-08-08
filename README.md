@@ -79,8 +79,20 @@ efficient loop closure detection.
 ## Supplementary
 * **[Submission video](https://www.youtube.com/watch?v=JRD_xuqtHZU)**
 
-
 ## Cite Sonar Context
+<pre>
+<code>
+@article{kim2023robust,
+  title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments},
+  author={Kim, Hogyun and Kang, Gilhwan and Jeong, Seokhwan and Ma, Seungjun and Cho, Younggun},
+  journal={arXiv preprint arXiv:2305.14773},
+  year={2023}
+}
+</code>
+</pre>  
+
+
+## Thanks Sonar Context
 <pre>
 <code>
 @inproceedings{kim2018scan,
