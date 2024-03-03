@@ -1,7 +1,7 @@
 ## Sonar Context
 * **Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments**
-	* Submitted to ICRA 2023
-	* Our paper is available at [arxiv](https://arxiv.org/abs/2305.14773)
+	* Aceppted to ICRA 2023
+	* Our paper is available at [IEEE](https://ieeexplore.ieee.org/document/10161518)
 
 * **What is Sonar Context and polar key?**
 	* Sonar context is a global descriptor, which encodes geometric characteristics of underwater environments.
@@ -80,14 +80,20 @@ efficient loop closure detection.
 * **[Submission video](https://www.youtube.com/watch?v=JRD_xuqtHZU)**
 
 ## Cite Sonar Context
+* Our paper has arxiv version on Google Scalar because of the Google Scalar issue. So, use the following bibtex for the ieee version.
+
 <pre>
 <code>
-@article{kim2023robust,
-  title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments},
+@INPROCEEDINGS{10161518,
   author={Kim, Hogyun and Kang, Gilhwan and Jeong, Seokhwan and Ma, Seungjun and Cho, Younggun},
-  journal={arXiv preprint arXiv:2305.14773},
-  year={2023}
-}
+  booktitle={2023 IEEE International Conference on Robotics and Automation (ICRA)}, 
+  title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1083-1089},
+  keywords={Training;Image recognition;Simultaneous localization and mapping;Sonar measurements;Sonar;Imaging;Sensor phenomena and characterization},
+  doi={10.1109/ICRA48891.2023.10161518}}
 </code>
 </pre>  
 
