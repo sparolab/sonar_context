@@ -85,16 +85,14 @@ efficient loop closure detection.
 
 <pre>
 <code>
-@INPROCEEDINGS{10161518,
+@inproceedings{kim2023robust,
+  title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments},
   author={Kim, Hogyun and Kang, Gilhwan and Jeong, Seokhwan and Ma, Seungjun and Cho, Younggun},
-  booktitle={2023 IEEE International Conference on Robotics and Automation (ICRA)}, 
-  title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments}, 
+  booktitle={2023 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={1083--1089},
   year={2023},
-  volume={},
-  number={},
-  pages={1083-1089},
-  keywords={Training;Image recognition;Simultaneous localization and mapping;Sonar measurements;Sonar;Imaging;Sensor phenomena and characterization},
-  doi={10.1109/ICRA48891.2023.10161518}}
+  organization={IEEE}
+}
 </code>
 </pre>  
 
