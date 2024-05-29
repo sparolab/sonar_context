@@ -1,7 +1,9 @@
 <div align="center">
     <h1>Sonar Context </h1>
 <div>
-	
+</div>
+</div>
+
 * **Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments**
 	* Aceppted to ICRA 2023
 	* Our paper is available at [IEEE](https://ieeexplore.ieee.org/document/10161518)
