@@ -4,7 +4,9 @@ recorded with the ROS 1 launch and converted with rosbags-convert) into the Sona
     ros2 launch sonar_context_slam aracati2017.launch.py bag:=/data/aracati_diso save_dir:=/out/ros2
 """
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, EmitEvent, ExecuteProcess, RegisterEventHandler
+from launch.event_handlers import OnProcessExit
+from launch.events import Shutdown
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -12,6 +14,7 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     bag, save_dir, rate = LaunchConfiguration("bag"), LaunchConfiguration("save_dir"), LaunchConfiguration("rate")
+    play = ExecuteProcess(cmd=["ros2", "bag", "play", bag, "-r", rate], output="log")
     return LaunchDescription([
         DeclareLaunchArgument("bag"),
         DeclareLaunchArgument("save_dir", default_value=""),
@@ -20,5 +23,7 @@ def generate_launch_description():
              output="screen",
              parameters=[PathJoinSubstitution([FindPackageShare("sonar_context_slam"), "config", "aracati2017.yaml"]),
                          {"save_dir": save_dir}]),
-        ExecuteProcess(cmd=["ros2", "bag", "play", bag, "-r", rate], output="log"),
+        play,
+        # the bag is over: stop, so that the node writes its session
+        RegisterEventHandler(OnProcessExit(target_action=play, on_exit=[EmitEvent(event=Shutdown())])),
     ])

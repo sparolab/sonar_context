@@ -5,7 +5,7 @@
 
 <session>: a SLAM session (poses.txt, odom_poses.txt, times.txt, loops.csv, points/). --images: the keyframes'
 polar images, uint8, in session order. Left: the sonar image and its Sonar Context; right: the sonar map on the
-optimized poses, DISO's odometry, the SLAM trajectory and its loops.
+optimized poses (a mosaic of the dense sonar images), DISO's odometry, the SLAM trajectory and its loops.
 """
 import argparse
 import csv
@@ -55,6 +55,8 @@ def main():
     p.add_argument("--flip", action="store_true", help="mirror the beams (as the SLAM did)")
     p.add_argument("--gt", help="Aracati pose_gt.txt, drawn faintly after a 2D alignment")
     p.add_argument("--every", type=int, default=3)
+    p.add_argument("--mosaic-res", type=float, default=0.25)
+    p.add_argument("--mosaic-gain", type=float, default=0, help="intensity shown as white (0: the 96th percentile)")
     p.add_argument("--fps", type=int, default=15)
     p.add_argument("--out", required=True)
     a = p.parse_args()
@@ -65,11 +67,6 @@ def main():
     n = len(xy)
     loops = [(int(r["query"]), int(r["match"])) for r in csv.DictReader(open(s / "loops.csv"))]
     imgs = np.fromfile(a.images, np.uint8).reshape(-1, *a.shape)[:n]
-    pts = [np.fromfile(s / "points" / f"{k}.bin", np.float32).reshape(-1, 4)[:, :2] for k in range(n)]
-    world = []
-    for k in range(n):
-        c, si = np.cos(yaw[k]), np.sin(yaw[k])
-        world.append(pts[k] @ np.array([[c, si], [-si, c]]) + xy[k])
     # odometry drawn in the SLAM frame (same start)
     gt = None
     if a.gt:
@@ -82,6 +79,30 @@ def main():
         gt = A @ R.T + xy.mean(0)
     allp = np.concatenate([xy, oxy])
     lo, hi = allp.min(0) - 12, allp.max(0) + 12
+    res = a.mosaic_res
+    gx, gy = np.arange(lo[0], hi[0], res) + res / 2, np.arange(lo[1], hi[1], res) + res / 2
+    GX, GY = np.meshgrid(gx, gy, indexing="xy")          # (ny, nx)
+    msum, mcnt = np.zeros_like(GX), np.zeros_like(GX)
+
+    def paint(k):
+        c = np.asarray(Image.open(s / "cartesian" / f"{k}.png"), dtype=float) / 256.0
+        N = c.shape[0]
+        cres, half = 0.25, N * 0.25 / 2
+        sel = (np.abs(GX - xy[k, 0]) < half) & (np.abs(GY - xy[k, 1]) < half)
+        dx, dy = GX[sel] - xy[k, 0], GY[sel] - xy[k, 1]
+        cs, sn = np.cos(yaw[k]), np.sin(yaw[k])
+        lx, ly = cs * dx + sn * dy, -sn * dx + cs * dy
+        v = map_coordinates(c, [(lx + half) / cres - 0.5, (ly + half) / cres - 0.5], order=1, cval=0)
+        inside = v > 0
+        idx = np.flatnonzero(sel)[inside]
+        msum.flat[idx] += v[inside]
+        mcnt.flat[idx] += 1
+
+    for k in range(n):                       # the final mosaic sets the brightness
+        paint(k)
+    final = msum / np.maximum(mcnt, 1)
+    gain = a.mosaic_gain or np.percentile(final[mcnt > 0], 96.0)
+    msum[:], mcnt[:] = 0, 0
 
     plt.rcParams.update({"font.family": "DejaVu Sans", "text.color": FG})
     frames = []
@@ -89,7 +110,12 @@ def main():
     for q, m in loops:
         loop_at.setdefault(q, []).append(m)
     ks = list(range(0, n, a.every)) + [n - 1] * a.fps * 2
+    painted = -1
     for k in ks:
+        while painted < k:
+            painted += 1
+            paint(painted)
+        mosaic = msum / np.maximum(mcnt, 1)
         fig = plt.figure(figsize=(12.8, 6.4), dpi=80, facecolor=BG)
         ax_img = fig.add_axes([0.02, 0.36, 0.36, 0.56])
         ax_sc = fig.add_axes([0.05, 0.07, 0.30, 0.22])
@@ -117,8 +143,8 @@ def main():
                         bbox=dict(boxstyle="round,pad=0.35", fc=GREEN, ec="none"))
 
         ax_map.set_facecolor(BG)
-        W = np.concatenate(world[: k + 1])
-        ax_map.scatter(W[:, 0], W[:, 1], s=0.5, c="#a5f3fc", alpha=0.45, linewidths=0)
+        ax_map.imshow(np.clip(mosaic / gain, 0, 1) ** 0.7, cmap="bone", origin="lower", vmin=0, vmax=1,
+                      extent=[gx[0] - res / 2, gx[-1] + res / 2, gy[0] - res / 2, gy[-1] + res / 2], interpolation="bilinear")
         if gt is not None:
             ax_map.plot(gt[: k + 1, 0], gt[: k + 1, 1], ":", c=FG, lw=1.0, alpha=0.5, label="ground truth (DGPS)")
         ax_map.plot(oxy[: k + 1, 0], oxy[: k + 1, 1], "--", c=GREY, lw=1.2, label="DISO odometry")

@@ -92,14 +92,14 @@ docker run --rm -v $PWD/out:/out sonar-context-slam:humble \
     ros2 launch sonar_context_slam aracati2017.launch.py bag:=/out/aracati_diso_ros2 save_dir:=/out/slam_ros2
 ```
 
-On **Aracati 2017** (44 min, 620 m in a marina, BlueView P900-130), against the DGPS ground truth (`evo_ape -a`):
+On **Aracati 2017** (44 min, 620 m in a marina, BlueView P900-130), live with DISO, against the DGPS ground truth (`evo_ape -a`; scale-corrected `-as` in parentheses):
 
-| | APE RMSE | with scale (`-as`) |
-| --- | --- | --- |
-| DISO odometry | 6.72 m | 6.20 m |
-| **+ Sonar Context loops** | **1.86 m** | **1.17 m** |
+| | DISO odometry | **+ Sonar Context loops** | loops |
+| --- | --- | --- | --- |
+| ROS 1 (DISO live) | 4.54 m (4.16 m) | **1.91 m (1.35 m)** | 40 |
+| ROS 2 (DISO poses recorded by ROS 1) | 5.08 m | **1.81 m** | 40 |
 
-DISO's poses are in a z-down frame (`flip_frame: true` turns them, and the sonar beams, to z-up). Everything else: [applications/slam](applications/slam).
+DISO is not deterministic from run to run (4.5 to 5.1 m here); the loops bring every run under 2 m. DISO's poses are in a z-down frame (`flip_frame: true` turns them, and the sonar beams, to z-up). Everything else: [applications/slam](applications/slam).
 
 ## :busts_in_silhouette: Multi-session SLAM
 
@@ -109,7 +109,7 @@ DISO's poses are in a z-down frame (`flip_frame: true` turns them, and the sonar
 sonar_context_align_sessions session_a/ session_b/ merged/ --threshold 0.25
 ```
 
-Aracati 2017 split in two sessions: 61 inter-session loops, 36 agree; the two sessions together come to **2.40 m** APE (18.45 m with session B left in its own frame).
+Aracati 2017 split in two sessions: 47 inter-session loops, 37 agree on one transform; the two sessions together come to **2.51 m** APE (17.88 m with session B left in its own frame; 1.96 m and 2.33 m for each session alone).
 
 ## :robot: Multi-robot SLAM with Commerge
 

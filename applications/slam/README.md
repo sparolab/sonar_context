@@ -63,5 +63,7 @@ python tools/evaluate.py out/ --gt pose_gt.txt --plot out/trajectory.png
 
 ## Aracati 2017
 
-APE against the DGPS ground truth (`evo_ape -a`, scale-corrected in parentheses): DISO odometry 6.72 m (6.20 m),
-with Sonar Context loops **1.86 m (1.17 m)**.
+APE against the DGPS ground truth (`evo_ape -a`, scale-corrected in parentheses), live ROS 1 run with DISO:
+odometry 4.54 m (4.16 m), with Sonar Context loops **1.91 m (1.35 m)**, 40 loops. ROS 2 on DISO poses recorded by
+another ROS 1 run: 5.08 m -> **1.81 m** (the same poses through ROS 1: 1.75 m). `tools/evaluate.py` prints the same
+RMSE with a 2D alignment.

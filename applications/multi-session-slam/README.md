@@ -14,6 +14,6 @@ sonar_context_align_sessions session_a/ session_b/ merged/ --threshold 0.25 [--c
 Writes `merged/poses_a.txt`, `poses_b.txt` (both in A's frame), `inter_loops.csv`, `transform.txt`. Built with the
 SLAM (ROS 1 or ROS 2 image: `/ws/devel/lib/sonar_context_slam/` or `/ws/install/sonar_context_slam/lib/...`).
 
-Aracati 2017 split in two sessions (354 + 354 keyframes, B in its own frame): 61 inter-session loops, 36 agree on
-one transform; the two sessions together come to 2.40 m APE against the ground truth (18.45 m with B left unaligned,
-2.02 m and 2.26 m for each session alone).
+Aracati 2017 split in two sessions (354 + 354 keyframes, B in its own frame): 47 inter-session loops, 37 agree on
+one transform; the two sessions together come to 2.51 m APE against the ground truth (17.88 m with B left unaligned,
+1.96 m and 2.33 m for each session alone).
