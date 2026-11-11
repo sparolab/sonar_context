@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="150" viewBox="0 0 760 150">
+  <path d="M5.1 81.8 A106 106 0 0 1 184.9 81.8" fill="none" stroke="#59636e" stroke-width="1.6" stroke-dasharray="3 6" opacity="0.6"/>
+  <path d="M75.9 127.0 L53.4 114.0 A48 48 0 0 1 66.8 99.2 L82.1 120.2 A22 22 0 0 0 75.9 127.0 Z" fill="#3F51B5" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M82.1 120.2 L66.8 99.2 A48 48 0 0 1 85.0 91.0 L90.4 116.5 A22 22 0 0 0 82.1 120.2 Z" fill="#3F51B5" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M90.4 116.5 L85.0 91.0 A48 48 0 0 1 105.0 91.0 L99.6 116.5 A22 22 0 0 0 90.4 116.5 Z" fill="#3F51B5" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M99.6 116.5 L105.0 91.0 A48 48 0 0 1 123.2 99.2 L107.9 120.2 A22 22 0 0 0 99.6 116.5 Z" fill="#3F51B5" opacity="0.95" stroke="#ffffff" stroke-width="2"/>
+  <path d="M107.9 120.2 L123.2 99.2 A48 48 0 0 1 136.6 114.0 L114.1 127.0 A22 22 0 0 0 107.9 120.2 Z" fill="#3F51B5" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M53.4 114.0 L30.9 101.0 A74 74 0 0 1 51.5 78.1 L66.8 99.2 A48 48 0 0 0 53.4 114.0 Z" fill="#D81B60" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M66.8 99.2 L51.5 78.1 A74 74 0 0 1 79.6 65.6 L85.0 91.0 A48 48 0 0 0 66.8 99.2 Z" fill="#D81B60" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M85.0 91.0 L79.6 65.6 A74 74 0 0 1 110.4 65.6 L105.0 91.0 A48 48 0 0 0 85.0 91.0 Z" fill="#D81B60" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M105.0 91.0 L110.4 65.6 A74 74 0 0 1 138.5 78.1 L123.2 99.2 A48 48 0 0 0 105.0 91.0 Z" fill="#D81B60" opacity="0.95" stroke="#ffffff" stroke-width="2"/>
+  <path d="M123.2 99.2 L138.5 78.1 A74 74 0 0 1 159.1 101.0 L136.6 114.0 A48 48 0 0 0 123.2 99.2 Z" fill="#D81B60" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M30.9 101.0 L8.4 88.0 A100 100 0 0 1 36.2 57.1 L51.5 78.1 A74 74 0 0 0 30.9 101.0 Z" fill="#00897B" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M51.5 78.1 L36.2 57.1 A100 100 0 0 1 74.2 40.2 L79.6 65.6 A74 74 0 0 0 51.5 78.1 Z" fill="#00897B" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M79.6 65.6 L74.2 40.2 A100 100 0 0 1 115.8 40.2 L110.4 65.6 A74 74 0 0 0 79.6 65.6 Z" fill="#00897B" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M110.4 65.6 L115.8 40.2 A100 100 0 0 1 153.8 57.1 L138.5 78.1 A74 74 0 0 0 110.4 65.6 Z" fill="#00897B" opacity="0.95" stroke="#ffffff" stroke-width="2"/>
+  <path d="M138.5 78.1 L153.8 57.1 A100 100 0 0 1 181.6 88.0 L159.1 101.0 A74 74 0 0 0 138.5 78.1 Z" fill="#00897B" opacity="0.42" stroke="#ffffff" stroke-width="2"/>
+  <path d="M56.7 20.1 A124 124 0 0 1 125.0 17.7" fill="none" stroke="#D81B60" stroke-width="3" stroke-linecap="round"/>
+  <path d="M141.5 23.0 l-9 -6 l1 11 z" fill="#D81B60"/>
+  <circle cx="95" cy="138" r="8" fill="#1f2328"/>
+  <text x="205" y="88" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="-1" fill="#1f2328"><tspan fill="#00897B">Sonar</tspan><tspan dx="18" fill="#3F51B5">Context</tspan></text>
+  <text x="208" y="126" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" font-weight="500" fill="#59636e">Imaging <tspan fill="#00897B" font-weight="800">Sonar</tspan> Place Recognition and Localization</text>
+</svg>

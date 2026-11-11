@@ -1,5 +1,9 @@
 <div align="center">
-  <h1>Sonar Context</h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg" />
+    <img src="assets/logo_light.svg" alt="Sonar Context: Imaging Sonar Place Recognition and Localization" width="560" />
+  </picture>
+  <br />
   <a href="https://github.com/sparolab/sonar_context/tree/main/cpp"><img src="https://img.shields.io/badge/-C++-blue?logo=cplusplus" /></a>
   <a href="https://github.com/sparolab/sonar_context/tree/main/python"><img src="https://img.shields.io/badge/Python-3670A0?logo=python&logoColor=ffdd54" /></a>
   <a href="https://pypi.org/project/sonar-context/"><img src="https://img.shields.io/pypi/v/sonar-context?logo=pypi&logoColor=white&label=PyPI&cacheSeconds=3600" /></a>
