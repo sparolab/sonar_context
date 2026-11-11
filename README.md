@@ -2,7 +2,7 @@
   <h1>Sonar Context</h1>
   <a href="https://github.com/sparolab/sonar_context/tree/main/cpp"><img src="https://img.shields.io/badge/-C++-blue?logo=cplusplus" /></a>
   <a href="https://github.com/sparolab/sonar_context/tree/main/python"><img src="https://img.shields.io/badge/Python-3670A0?logo=python&logoColor=ffdd54" /></a>
-  <a href="https://pypi.org/project/sonar-context/"><img src="https://img.shields.io/pypi/v/sonar-context?logo=pypi&logoColor=white&label=PyPI" /></a>
+  <a href="https://pypi.org/project/sonar-context/"><img src="https://img.shields.io/pypi/v/sonar-context?logo=pypi&logoColor=white&label=PyPI&cacheSeconds=3600" /></a>
   <a href="https://github.com/sparolab/sonar_context/tree/main/applications/slam/ros1"><img src="https://img.shields.io/badge/ROS-Noetic-blue" /></a>
   <a href="https://github.com/sparolab/sonar_context/tree/main/applications/slam/ros2"><img src="https://img.shields.io/badge/ROS2-Humble-blue" /></a>
   <a href="#docker"><img src="https://img.shields.io/badge/Ubuntu-E95420?logo=ubuntu&logoColor=white" /></a>
