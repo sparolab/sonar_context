@@ -63,7 +63,11 @@ python tools/evaluate.py out/ --gt pose_gt.txt --plot out/trajectory.png
 
 ## Aracati 2017
 
-APE against the DGPS ground truth (`evo_ape -a`, scale-corrected in parentheses), live ROS 1 run with DISO:
-odometry 4.54 m (4.16 m), with Sonar Context loops **1.91 m (1.35 m)**, 40 loops. ROS 2 on DISO poses recorded by
-another ROS 1 run: 5.08 m -> **1.81 m** (the same poses through ROS 1: 1.75 m). `tools/evaluate.py` prints the same
-RMSE with a 2D alignment.
+On **Aracati 2017** (44 min, 620 m), against the DGPS ground truth (`evo_ape -a`; scale-corrected `-as` in parentheses):
+
+| | DISO odometry | **+ Sonar Context loops** | loops |
+| --- | --- | --- | --- |
+| ROS 1 (DISO live) | 4.54 m (4.16 m) | **1.91 m (1.35 m)** | 40 |
+| ROS 2 (DISO poses recorded by ROS 1) | 5.08 m | **1.81 m** | 40 |
+
+DISO is not deterministic from run to run; the loops bring every run under 2 m. Its poses are z-down (`flip_frame: true` turns them, and the beams, to z-up).

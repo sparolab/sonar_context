@@ -89,14 +89,7 @@ docker run --rm -v $PWD/out:/out sonar-context-slam:humble \
 # Your own odometry: set pose_topic (PoseStamped or Odometry), image_topic and image_layout
 ```
 
-Keyframes every 1 m; Sonar Context proposes revisits; each is verified by **dense phase correlation** of the two sonar frames and closed with iSAM2. On **Aracati 2017** (44 min, 620 m), against the DGPS ground truth (`evo_ape -a`; scale-corrected `-as` in parentheses):
-
-| | DISO odometry | **+ Sonar Context loops** | loops |
-| --- | --- | --- | --- |
-| ROS 1 (DISO live) | 4.54 m (4.16 m) | **1.91 m (1.35 m)** | 40 |
-| ROS 2 (DISO poses recorded by ROS 1) | 5.08 m | **1.81 m** | 40 |
-
-DISO is not deterministic from run to run; the loops bring every run under 2 m. Its poses are z-down (`flip_frame: true` turns them, and the beams, to z-up). More: [applications/slam](applications/slam).
+Keyframes every 1 m; Sonar Context proposes revisits; each is verified by **dense phase correlation** of the two sonar frames and closed with iSAM2. On **Aracati 2017** (620 m in a marina), the loops bring DISO's sonar odometry from 4.54 m to **1.91 m** APE against the DGPS ground truth. Results: [applications/slam](applications/slam#aracati-2017).
 
 Without ROS:
 
@@ -120,7 +113,7 @@ ______________________________________________________________________
 
 ### Multi-session SLAM
 
-LT-SLAM style ([LT-mapper](https://github.com/gisbi-kim/lt-mapper)), as in [RadLoc](https://github.com/sparolab/RadLoc) and [ReFeree](https://github.com/sparolab/ReFeree): sessions saved by the SLAM keep their own frames and get one anchor node each; inter-session Sonar Context loops, verified by dense correlation, connect them through the anchors. Aracati 2017 split in two sessions: 47 inter-session loops; the two sessions together come to **2.52 m** APE (17.88 m with session B left in its own frame).
+LT-SLAM style ([LT-mapper](https://github.com/gisbi-kim/lt-mapper)), as in [RadLoc](https://github.com/sparolab/RadLoc) and [ReFeree](https://github.com/sparolab/ReFeree): sessions saved by the SLAM keep their own frames and get one anchor node each; inter-session Sonar Context loops, verified by dense correlation, connect them through the anchors. Aracati 2017 split in two sessions, each in its own frame, comes together at **2.52 m** APE. Results: [applications/multi-session-slam](applications/multi-session-slam).
 
 ```bash
 sonar_context_align_sessions session_a/ session_b/ merged/ --threshold 0.25
