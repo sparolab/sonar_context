@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use Sonar Context, please cite the paper below."
 title: "Sonar Context: imaging-sonar place recognition and localization"
 type: software
-version: 2.0.0
+version: 2.0.1
 date-released: 2026-11-11
 repository-code: "https://github.com/sparolab/sonar_context"
 license: BSD-3-Clause

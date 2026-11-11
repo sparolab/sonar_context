@@ -13,7 +13,7 @@
 
 namespace sonar_context {
 
-inline constexpr const char* kVersion = "2.0.0";
+inline constexpr const char* kVersion = "2.0.1";
 
 using Image = Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 using Descriptor = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
