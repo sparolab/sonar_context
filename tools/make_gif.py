@@ -5,7 +5,9 @@
 
 <session>: a SLAM session (poses.txt, odom_poses.txt, times.txt, loops.csv, points/). --images: the keyframes'
 polar images, uint8, in session order. Left: the sonar image and its Sonar Context; right: the sonar map on the
-optimized poses (a mosaic of the dense sonar images), DISO's odometry, the SLAM trajectory and its loops.
+current estimate (a mosaic of the dense sonar images), DISO's odometry, the SLAM trajectory and its loops.
+The pose graph is replayed into iSAM2 keyframe by keyframe, so each frame shows what the robot believed at that
+moment: the trajectory and the map snap into place when a loop closes.
 """
 import argparse
 import csv
@@ -41,6 +43,45 @@ def fan(polar_rb, fov=130.0, size=360):
     return out
 
 
+def online_estimates(odom, loops, ks, odom_sigma, loop_sigma):
+    """Replay the pose graph the way the SLAM node built it: one keyframe at a time, into iSAM2.
+
+    odom: (n, 3) odometry poses (x, y, yaw). loops: [(i, j, (dx, dy, dyaw))], i < j, the measured pose of j in i.
+    Returns {k: (k+1, 3) estimate right after keyframe k} for k in ks: what the robot believed at that moment.
+    """
+    import gtsam
+    import numpy as np
+
+    P = [gtsam.Pose2(*p) for p in odom]
+    on = gtsam.noiseModel.Diagonal.Sigmas(np.asarray(odom_sigma, float))
+    ln = gtsam.noiseModel.Robust.Create(gtsam.noiseModel.mEstimator.Cauchy.Create(1.0),
+                                        gtsam.noiseModel.Diagonal.Sigmas(np.asarray(loop_sigma, float)))
+    at = {}
+    for i, j, d in loops:
+        at.setdefault(j, []).append((i, gtsam.Pose2(*d)))
+    isam = gtsam.ISAM2()
+    want, out, last = set(ks), {}, P[0]
+    for k in range(max(ks) + 1):
+        g, v = gtsam.NonlinearFactorGraph(), gtsam.Values()
+        if k == 0:
+            g.add(gtsam.PriorFactorPose2(0, P[0], gtsam.noiseModel.Diagonal.Sigmas(np.array([1e-3, 1e-3, 1e-4]))))
+            v.insert(0, P[0])
+        else:
+            d = P[k - 1].between(P[k])
+            g.add(gtsam.BetweenFactorPose2(k - 1, k, d, on))
+            v.insert(k, last.compose(d))
+        for i, m in at.get(k, []):
+            g.add(gtsam.BetweenFactorPose2(i, k, m, ln))
+        isam.update(g, v)
+        for _ in range(3 if k in at else 0):
+            isam.update()
+        e = isam.calculateEstimate()
+        last = e.atPose2(k)
+        if k in want:
+            out[k] = np.array([[e.atPose2(i).x(), e.atPose2(i).y(), e.atPose2(i).theta()] for i in range(k + 1)])
+    return out
+
+
 def kitti_xy(path):
     P = np.loadtxt(path)
     return P[:, [3, 7]], np.arctan2(P[:, 4], P[:, 0])
@@ -63,9 +104,10 @@ def main():
 
     s = Path(a.session)
     xy, yaw = kitti_xy(s / "poses.txt")
-    oxy, _ = kitti_xy(s / "odom_poses.txt")
+    oxy, oyaw = kitti_xy(s / "odom_poses.txt")
     n = len(xy)
-    loops = [(int(r["query"]), int(r["match"])) for r in csv.DictReader(open(s / "loops.csv"))]
+    rows = list(csv.DictReader(open(s / "loops.csv")))
+    loops = [(int(r["query"]), int(r["match"])) for r in rows]
     imgs = np.fromfile(a.images, np.uint8).reshape(-1, *a.shape)[:n]
     # odometry drawn in the SLAM frame (same start)
     gt = None
@@ -84,13 +126,13 @@ def main():
     GX, GY = np.meshgrid(gx, gy, indexing="xy")          # (ny, nx)
     msum, mcnt = np.zeros_like(GX), np.zeros_like(GX)
 
-    def paint(k):
+    def paint(k, X):
         c = np.asarray(Image.open(s / "cartesian" / f"{k}.png"), dtype=float) / 256.0
         N = c.shape[0]
         cres, half = 0.25, N * 0.25 / 2
-        sel = (np.abs(GX - xy[k, 0]) < half) & (np.abs(GY - xy[k, 1]) < half)
-        dx, dy = GX[sel] - xy[k, 0], GY[sel] - xy[k, 1]
-        cs, sn = np.cos(yaw[k]), np.sin(yaw[k])
+        sel = (np.abs(GX - X[k, 0]) < half) & (np.abs(GY - X[k, 1]) < half)
+        dx, dy = GX[sel] - X[k, 0], GY[sel] - X[k, 1]
+        cs, sn = np.cos(X[k, 2]), np.sin(X[k, 2])
         lx, ly = cs * dx + sn * dy, -sn * dx + cs * dy
         v = map_coordinates(c, [(lx + half) / cres - 0.5, (ly + half) / cres - 0.5], order=1, cval=0)
         inside = v > 0
@@ -99,7 +141,7 @@ def main():
         mcnt.flat[idx] += 1
 
     for k in range(n):                       # the final mosaic sets the brightness
-        paint(k)
+        paint(k, np.c_[xy, yaw])
     final = msum / np.maximum(mcnt, 1)
     gain = a.mosaic_gain or np.percentile(final[mcnt > 0], 96.0)
     msum[:], mcnt[:] = 0, 0
@@ -110,11 +152,18 @@ def main():
     for q, m in loops:
         loop_at.setdefault(q, []).append(m)
     ks = list(range(0, n, a.every)) + [n - 1] * a.fps * 2
-    painted = -1
+    est = online_estimates(np.c_[oxy, oyaw], [(int(r["match"]), int(r["query"]),
+                           (float(r["dx"]), float(r["dy"]), float(r["dyaw"]))) for r in rows], ks,
+                           (0.05, 0.05, np.radians(1.0)), (0.3, 0.3, np.radians(2.0)))
+    painted, prev_k, prev_E = -1, -1, None
     for k in ks:
+        E = est[k]
+        closed = any(prev_k < q <= k for q in loop_at)
+        if closed:                           # the graph moved: rebuild the map on the corrected poses
+            msum[:], mcnt[:], painted = 0, 0, -1
         while painted < k:
             painted += 1
-            paint(painted)
+            paint(painted, E)
         mosaic = msum / np.maximum(mcnt, 1)
         fig = plt.figure(figsize=(12.8, 6.4), dpi=80, facecolor=BG)
         ax_img = fig.add_axes([0.02, 0.36, 0.36, 0.56])
@@ -150,9 +199,11 @@ def main():
         ax_map.plot(oxy[: k + 1, 0], oxy[: k + 1, 1], "--", c=GREY, lw=1.2, label="DISO odometry")
         for q, m in loops:
             if q <= k:
-                ax_map.plot([xy[q, 0], xy[m, 0]], [xy[q, 1], xy[m, 1]], "-", c=GREEN, lw=0.8, alpha=0.8)
-        ax_map.plot(xy[: k + 1, 0], xy[: k + 1, 1], "-", c=BLUE, lw=2.0, label="+ Sonar Context loops")
-        ax_map.plot(*xy[k], "o", c=ORANGE, ms=7)
+                ax_map.plot([E[q, 0], E[m, 0]], [E[q, 1], E[m, 1]], "-", c=GREEN, lw=0.8, alpha=0.8)
+        if closed and prev_E is not None:    # the estimate just before the loop, for a moment
+            ax_map.plot(prev_E[:, 0], prev_E[:, 1], "-", c=BLUE, lw=1.5, alpha=0.35)
+        ax_map.plot(E[:, 0], E[:, 1], "-", c=BLUE, lw=2.0, label="SLAM (iSAM2, online)")
+        ax_map.plot(*E[k, :2], "o", c=ORANGE, ms=7)
         ax_map.set_xlim(lo[0], hi[0]); ax_map.set_ylim(lo[1], hi[1]); ax_map.set_aspect("equal")
         ax_map.axis("off")
         nl = sum(1 for q, _ in loops if q <= k)
@@ -162,6 +213,7 @@ def main():
         fig.savefig(buf, format="png", facecolor=BG)
         plt.close(fig)
         frames.append(Image.open(buf).convert("RGB"))
+        prev_k, prev_E = k, E
     pal = frames[len(frames) // 2].quantize(colors=128, method=Image.Quantize.MEDIANCUT)
     q = [fr.quantize(palette=pal, dither=Image.Dither.NONE) for fr in frames]
     q[0].save(a.out, save_all=True, append_images=q[1:], duration=int(1000 / a.fps), loop=0, optimize=True)
