@@ -1,0 +1,16 @@
+# Sonar Context SLAM on ROS 2 Humble (odometry poses from a topic, e.g. DISO's recorded with ROS 1).
+#   docker build -f docker/Dockerfile.slam-ros2 -t sonar-context-slam:humble .
+FROM ros:humble
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      ros-humble-gtsam ros-humble-cv-bridge ros-humble-image-transport ros-humble-tf2 libeigen3-dev libopencv-dev \
+      ros-humble-rosbag2-storage-default-plugins \
+ && rm -rf /var/lib/apt/lists/*
+COPY cpp /ws/src/sonar_context/cpp
+COPY applications /ws/src/sonar_context/applications
+# the ROS 1 package has the same name: keep it out of the colcon workspace
+RUN rm -rf /ws/src/sonar_context/applications/slam/ros1
+WORKDIR /ws
+RUN . /opt/ros/humble/setup.sh && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+RUN echo "source /ws/install/setup.bash" >> /root/.bashrc
+CMD ["bash"]

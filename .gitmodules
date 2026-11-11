@@ -1,0 +1,6 @@
+[submodule "thirdparty/DISO"]
+	path = thirdparty/DISO
+	url = https://github.com/SenseRoboticsLab/DISO.git
+[submodule "thirdparty/Aracati2017_DISO"]
+	path = thirdparty/Aracati2017_DISO
+	url = https://github.com/SenseRoboticsLab/Aracati2017_DISO.git

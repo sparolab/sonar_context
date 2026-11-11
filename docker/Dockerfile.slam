@@ -1,0 +1,43 @@
+# Sonar Context SLAM on ROS Noetic: DISO (direct imaging sonar odometry) + Sonar Context loop closing + iSAM2.
+#   docker build -f docker/Dockerfile.slam -t sonar-context-slam:noetic .
+# DISO's dependencies follow its own Dockerfile (thirdparty/DISO/docker), pinned to the same commits.
+FROM osrf/ros:noetic-desktop-full AS deps
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential cmake git ninja-build clang-10 software-properties-common \
+      libgoogle-glog-dev libgflags-dev libatlas-base-dev libsuitesparse-dev \
+      libboost-dev libboost-filesystem-dev libgtk-3-dev libjpeg-dev libpng-dev libtiff-dev \
+      ros-noetic-pcl-ros ros-noetic-pcl-conversions ros-noetic-tf2-sensor-msgs ros-noetic-image-geometry \
+      ros-noetic-cv-bridge ros-noetic-geodesy python3-catkin-tools \
+ && add-apt-repository -y ppa:borglab/gtsam-release-4.1 && apt-get update \
+ && apt-get install -y --no-install-recommends libgtsam-dev libgtsam-unstable-dev \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /third_party
+# OpenCV (DISO pins 1ac7bac + contrib b8eca41)
+RUN git clone https://github.com/opencv/opencv.git && git -C opencv checkout -q 1ac7baceff84768d583887fe7c7f1883e9f8e0cb \
+ && cmake -S opencv -B opencv/build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++-10 -DCMAKE_C_COMPILER=clang-10 \
+      -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_python3=OFF \
+ && ninja -C opencv/build install && rm -rf opencv
+# Eigen, fmt, g2o, Sophus at DISO's commits
+RUN apt-get update && apt-get install -y --no-install-recommends gfortran && rm -rf /var/lib/apt/lists/* \
+ && git clone https://gitlab.com/libeigen/eigen.git && git -C eigen checkout -q 3dc3a0ea2d0773af4c0ffd7bbcb21c608e28fcef \
+ && cmake -S eigen -B eigen/build && make -C eigen/build install && rm -rf eigen
+RUN git clone https://github.com/fmtlib/fmt.git && git -C fmt checkout -q c240d98ffd37b65ee7c27185c62a2cbc093ff185 \
+ && cmake -S fmt -B fmt/build -DFMT_TEST=OFF && make -C fmt/build -j8 install && rm -rf fmt
+RUN git clone https://github.com/RainerKuemmerle/g2o.git && git -C g2o checkout -q 21b7ce45c9c129879f800a7047d3e4be7251444f \
+ && cmake -S g2o -B g2o/build -DCMAKE_BUILD_TYPE=Release -DG2O_BUILD_EXAMPLES=OFF && make -C g2o/build -j8 install && rm -rf g2o
+RUN git clone https://github.com/strasdat/Sophus.git && git -C Sophus checkout -q 49a7e1286910019f74fb4f0bb3e213c909f8e1b7 \
+ && cmake -S Sophus -B Sophus/build -DBUILD_TESTS=OFF -DBUILD_EXAMPLES=OFF && make -C Sophus/build install && rm -rf Sophus
+RUN ldconfig
+
+FROM deps AS slam
+
+# the repository with its submodules (DISO, aracati2017) as one catkin workspace
+COPY . /ws/src/sonar_context
+# the ROS 2 package has the same name: keep it out of the catkin workspace
+RUN rm -rf /ws/src/sonar_context/applications/slam/ros2
+WORKDIR /ws
+RUN . /opt/ros/noetic/setup.sh && catkin_make -DCMAKE_BUILD_TYPE=Release -j8
+RUN echo "source /ws/devel/setup.bash" >> /root/.bashrc
+CMD ["bash"]

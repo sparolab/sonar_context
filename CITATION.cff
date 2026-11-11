@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use Sonar Context, please cite the paper below."
+title: "Sonar Context: imaging-sonar place recognition and localization"
+type: software
+version: 2.0.0
+date-released: 2026-11-11
+repository-code: "https://github.com/sparolab/sonar_context"
+license: BSD-3-Clause
+keywords: [sonar, underwater, place-recognition, loop-closure, slam]
+authors: &authors
+  - family-names: Kim
+    given-names: Hogyun
+  - family-names: Kang
+    given-names: Gilhwan
+  - family-names: Jeong
+    given-names: Seokhwan
+  - family-names: Ma
+    given-names: Seungjun
+  - family-names: Cho
+    given-names: Younggun
+preferred-citation:
+  type: conference-paper
+  title: "Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments"
+  authors: *authors
+  collection-title: "2023 IEEE International Conference on Robotics and Automation (ICRA)"
+  pages: "1083-1089"
+  year: 2023
+  doi: 10.1109/ICRA48891.2023.10161518

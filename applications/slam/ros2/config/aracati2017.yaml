@@ -1,0 +1,26 @@
+sonar_context_slam:
+  ros__parameters:
+    image_topic: /son
+    image_transport: compressed
+    image_layout: fan          # Cartesian fan, apex at the bottom center
+    pose_topic: /direct_sonar/pose
+    pose_type: pose
+    flip_frame: true         # DISO poses are z-down: flip them (and the beams) to z-up
+    fov_deg: 130.0
+    max_range: 50.0
+    range_bins: 750            # polar image resampled from the fan
+    beams: 300
+    skip_range: 75
+    patch_range: 25
+    patch_beam: 4
+    col_threshold: 0.2
+    row_threshold: 0.0         # off: accept by the column distance only
+    exclude_recent: 30
+    num_candidates: 1
+    keyframe_distance: 1.0
+    keyframe_yaw_deg: 15.0
+    min_range: 8.0           # map points: strongest returns beyond 8 m
+    keep_percentile: 99.5
+    min_peak: 0.10
+    odom_sigma_xy: 0.05
+    loop_sigma_xy: 0.3

@@ -1,95 +1,145 @@
 <div align="center">
-    <h1>Sonar Context </h1>
-<div>
+  <h1>Sonar Context</h1>
+  <a href="https://github.com/sparolab/sonar_context/tree/main/python"><img src="https://img.shields.io/badge/Python-3670A0?logo=python&logoColor=ffdd54" /></a>
+  <a href="https://pypi.org/project/sonar-context/"><img src="https://img.shields.io/pypi/v/sonar-context?logo=pypi&logoColor=white&label=PyPI" /></a>
+  <a href="#c"><img src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus&logoColor=white" /></a>
+  <a href="#slam"><img src="https://img.shields.io/badge/ROS-Noetic-22314E?logo=ros&logoColor=white" /></a>
+  <a href="#slam"><img src="https://img.shields.io/badge/ROS%202-Humble-22314E?logo=ros&logoColor=white" /></a>
+  <a href="#slam"><img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" /></a>
+  <a href="https://github.com/sparolab/sonar_context/actions/workflows/ci.yml"><img src="https://github.com/sparolab/sonar_context/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
+  <a href="https://sites.google.com/view/sonar-context"><img src="https://img.shields.io/badge/Project-Page-6f42c1" /></a>
+  <a href="https://ieeexplore.ieee.org/document/10161518"><img src="https://img.shields.io/badge/ICRA-2023-1f6feb" /></a>
+  <a href="https://www.youtube.com/watch?v=JRD_xuqtHZU"><img src="https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white" /></a>
+  <a href="https://github.com/sparolab/Commerge"><img src="https://img.shields.io/badge/Commerge-multi--robot-3F51B5" /></a>
+  <br />
+  <a href="https://pypi.org/project/sonar-context/"><img src="https://readme-typing-svg.demolab.com?background=0D1117&color=22C55E&font=Fira+Code&size=14&duration=2500&pause=800&center=true&vCenter=true&width=280&height=24&lines=%24+pip+install+sonar-context" alt="pip install sonar-context" /></a>
+  <br />
+  <img src="https://raw.githubusercontent.com/sparolab/sonar_context/main/assets/sonar_context_slam.gif" alt="Sonar Context SLAM on Aracati 2017: each forward-looking sonar keyframe gets a Sonar Context; revisits are found from it, verified by dense correlation and closed in a pose graph over DISO's sonar odometry, and the sonar map comes together" width="95%" />
+  <p>
+    <strong>[ICRA 2023] Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments</strong><br />
+    Hogyun Kim, Gilhwan Kang, Seokhwan Jeong, Seungjun Ma, Younggun Cho · <a href="https://sites.google.com/view/sparo">SPARO Lab</a>, Inha University
+  </p>
 </div>
-</div>
 
-* **Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments**
-	* Aceppted to ICRA 2023
-	* Our paper is available at [IEEE](https://ieeexplore.ieee.org/document/10161518)
+______________________________________________________________________
 
-* **What is Sonar Context and polar key?**
-	* Sonar context is a global descriptor, which encodes geometric characteristics of underwater environments.
-	* Polar key is a 1D vector collected of average values in each row direction of the sonar context.
-	* The descriptor consists of coarse (polar key) and fine description (Sonar Context) for
-efficient loop closure detection.
-	* The descriptor is robust for rotational and translational differences by adaptive shifting and matching algorithms.
-	 ![main_fig](https://user-images.githubusercontent.com/68933951/215500050-c1974c55-10e0-494b-8a0f-a6c9d0cd30dd.png)
+Underwater there is no GPS and no light; a forward-looking imaging sonar sees 50 m ahead through murky water, but its images are noisy, low-resolution and change with the viewpoint. **Sonar Context** turns one sonar image into a small, robust place descriptor, so a robot can tell that it has been here before.
 
-* **Author & Contributor**
-	* Hogyun Kim, Gilhwan Kang, Seungjun Ma, Seokhwan Jeong and Younggun Cho  
-	
-	
+- :ocean: **Sonar Context**: the polar sonar image pooled into patches (range rings × bearing sectors), plus a **polar key** (one value per range ring) that does not change with the heading.
+- :mag: **Coarse to fine**: the polar key finds candidates in a k-d tree; the Sonar Context compares them column by column over every bearing shift (a rotation) and row by row (a motion along the beams).
+- :repeat: **SLAM**: [DISO](https://github.com/SenseRoboticsLab/DISO) sonar odometry + Sonar Context loops, verified by dense phase correlation and optimized with iSAM2, on ROS 1 and ROS 2.
+- :busts_in_silhouette: **Multi-session and multi-robot**: sessions recorded apart are aligned through their shared places; two robots merge their maps with [Commerge](https://github.com/sparolab/Commerge) from a few keyframes.
+- :package: **Library first**: `pip install sonar-context` (NumPy), a C++17 library with the same results, and every application built on them.
 
-## Overview of our method
-* **Place Recognition & Pose Graph SLAM in Aracati 2017 Datasets**
-![sonar_context](https://user-images.githubusercontent.com/68933951/201089338-ed06170f-0d81-44df-86e4-81a417588374.gif)
-		
-## Datasets
-![datasets-1 (1)](https://user-images.githubusercontent.com/68933951/215676213-8672d0df-17d5-4fd5-98b6-b8454543dd50.png)
+## :newspaper: News
 
-* **[HOLOOCEAN](https://holoocean.readthedocs.io/en/latest/usage/usage.html)**
-	* [googledrive](https://drive.google.com/drive/folders/1tPEZzdvOCRTILfkeq2X0KLuOM3v53kQL?usp=sharing)
-	
-* **KRISO (KOREA RESEARCH INSTITUTE OF SHIPS AND OCEAN ENGINEERING)**
-	* not public  
-	
-* **Aracati 2017**
-	* [github](https://github.com/matheusbg8/aracati2017)
+- **[Nov 2026]** v2.0.0: Python and C++ libraries, SLAM with DISO (ROS 1 / ROS 2), multi-session SLAM, multi-robot SLAM with Commerge, and fixes to the matching (below). The ICRA 2023 code is kept at [v1.0.0](https://github.com/sparolab/sonar_context/tree/v1.0.0).
+- **[Jan 2023]** Sonar Context is accepted to ICRA 2023.
 
-  
-## How to use sonar context?
-**0. Download sonar context**
-<pre>
-<code>
-    $ git clone https://github.com/sparolab/sonar_context.git
-</code>
-</pre>  
+## :hammer_and_wrench: Installation
 
+```bash
+pip install sonar-context                 # Python 3.9+, NumPy / SciPy / Pillow
+git clone --recursive https://github.com/sparolab/sonar_context.git   # C++, SLAM (DISO as a submodule)
+```
 
-**1. Requirements** 
-  * We implement our place recognition method in python3. 
-<pre>
-<code>
-    $ pip3 install -r requirements.txt
-</code>
-</pre>  
+### Python
 
+```python
+import sonar_context as sc
 
-**2. Generate sonar context and polar key**
-  * Modify the **patch size** parameters to fit your datasets in the img2scpk.py.
-	* Set your **input path** (rectangular image called encoded polar image) and **output paths** (sonar context and polar key). 
-<pre>
-<code>
-    $ cd sonar_context/generate/
-    $ python3 img2scpk.py
-</code>
-</pre>  
+# a polar sonar image: rows = range bins, columns = beams (layout="beam_range" if stored the other way)
+desc = sc.sonar_context(image, patch=(4, 4))
+dist, shift = sc.column_distance(desc_a, desc_b)        # 1 - similarity, best bearing shift (a rotation)
 
-**3. Place Recognition and Localization**
-* Create your **datasets.txt file** similar to examples.txt and modify the parameters to fit your datasets.
+m = sc.SonarContextManager(col_threshold=0.2, exclude_recent=30)
+for image in sequence:
+    loop = m.update(image)                               # Loop(query, match, distance, column_shift, ...) or None
+```
 
-<pre>
-<code>
-    $ cd sonar_context/place_recognition/
-    $ python3 main holoocean.txt
-</code>
-</pre>  
-	
+```bash
+sonar-context describe polar_image.zip --layout beam_range --out seq.npz      # descriptors of a sequence
+sonar-context loops seq.npz --out loops.csv --poses poses.txt               # online loop detection (+ precision)
+sonar-context affinity a.npz b.npz --out affinity.npy                       # two sessions, for Commerge
+```
 
-## Contact
-* Hogyun Kim (hg.kim@inha.edu)
+### C++
 
+```bash
+sudo apt install libeigen3-dev
+cmake -S cpp -B cpp/build && cmake --build cpp/build -j && ctest --test-dir cpp/build
+```
 
-## Supplementary
-* **[Project Page](https://sites.google.com/view/sonar-context?usp=sharing)**
-* **[Submission video](https://www.youtube.com/watch?v=JRD_xuqtHZU)**
+```cpp
+#include "sonar_context/sonar_context.hpp"
+auto d = sonar_context::make_sonar_context(image);                 // CMake: sonar_context::sonar_context
+auto m = sonar_context::column_distance(d_a, d_b);                 // m.distance, m.shift
+```
 
-## Cite Sonar Context
-* Our paper has arxiv version on Google Scalar because of the Google Scalar issue. So, use the following bibtex for the ieee version.
+Same distances and shifts as Python (checked in `python/tests/test_cpp.py`).
 
-<pre>
-<code>
+## :world_map: SLAM
+
+[`applications/slam`](applications/slam): any odometry (default [DISO](https://github.com/SenseRoboticsLab/DISO), direct imaging sonar odometry, ICRA 2024) gives keyframes every 1 m; Sonar Context proposes revisits; each is verified by **dense phase correlation** of the two sonar frames (rotation searched, normalized peak ≥ 0.10) and closed with iSAM2. The core is ROS-free; the nodes are thin wrappers.
+
+```bash
+docker build -f docker/Dockerfile.slam -t sonar-context-slam:noetic .            # ROS 1: DISO + SLAM
+docker run --rm -v <Aracati>:/data:ro -v $PWD/out:/out sonar-context-slam:noetic \
+    roslaunch sonar_context_slam aracati2017.launch bag:=/data/ARACATI_2017_8bits_full.bag save_dir:=/out/slam \
+    record:=/out/aracati_diso.bag                                                # + a bag for ROS 2
+docker build -f docker/Dockerfile.slam-ros2 -t sonar-context-slam:humble .       # ROS 2: SLAM on recorded poses
+docker run --rm -v $PWD/out:/out sonar-context-slam:humble \
+    ros2 launch sonar_context_slam aracati2017.launch.py bag:=/out/aracati_diso_ros2 save_dir:=/out/slam_ros2
+```
+
+On **Aracati 2017** (44 min, 620 m in a marina, BlueView P900-130), against the DGPS ground truth (`evo_ape -a`):
+
+| | APE RMSE | with scale (`-as`) |
+| --- | --- | --- |
+| DISO odometry | 6.72 m | 6.20 m |
+| **+ Sonar Context loops** | **1.86 m** | **1.17 m** |
+
+DISO's poses are in a z-down frame (`flip_frame: true` turns them, and the sonar beams, to z-up). Everything else: [applications/slam](applications/slam).
+
+## :busts_in_silhouette: Multi-session SLAM
+
+[`applications/multi-session-slam`](applications/multi-session-slam): two sessions saved by the SLAM, each in its own frame, are aligned through inter-session Sonar Context loops (dense correlation, then the largest set that agrees on one transform) and optimized in one pose graph.
+
+```bash
+sonar_context_align_sessions session_a/ session_b/ merged/ --threshold 0.25
+```
+
+Aracati 2017 split in two sessions: 61 inter-session loops, 36 agree; the two sessions together come to **2.40 m** APE (18.45 m with session B left in its own frame).
+
+## :robot: Multi-robot SLAM with Commerge
+
+[`applications/multi-robot-slam`](applications/multi-robot-slam): two robots merge their maps by exchanging only a few keyframes, chosen by [Commerge](https://github.com/sparolab/Commerge) (IJRR 2026) from the Sonar Context affinity between them: on Aracati split into two robots, 4.5 % of the keyframes (2.6 KB of poses) merge the maps within 1.3 m.
+
+<p align="center"><img src="applications/multi-robot-slam/commerge_sonar.gif" alt="Commerge on Aracati 2017 split into two sonar robots" width="80%" /></p>
+
+## :wrench: What changed in v2.0.0
+
+The matching of the ICRA 2023 code had bugs, fixed in both libraries (the old code: [v1.0.0](https://github.com/sparolab/sonar_context/tree/v1.0.0)):
+
+- the best bearing shift was read one entry off (`argmax + 1`), and could index past the array;
+- shift 0 (the same heading) was never tested;
+- the row search compared unshifted rows, so it had no effect;
+- a shift with no non-empty overlap divided by zero.
+
+New: `skip_range` drops the bright near field (on Aracati, 5 m), the polar image layout is explicit (`range_beam` / `beam_range`: Aracati's polar images are stored beams × range), and the descriptors of two sessions compare in one call (`column_similarity_matrix`, FFT-based).
+
+## :card_file_box: Datasets
+
+- **[Aracati 2017](https://github.com/matheusbg8/aracati2017)**: the bag (`/son`, `/pose_gt`) and the polar images; DISO's [Aracati2017_DISO](https://github.com/SenseRoboticsLab/Aracati2017_DISO) adds the dead-reckoning prior (`thirdparty/`).
+- **[HoloOcean](https://holoocean.readthedocs.io/)** simulation: [Google Drive](https://drive.google.com/drive/folders/1tPEZzdvOCRTILfkeq2X0KLuOM3v53kQL?usp=sharing).
+- KRISO (Korea Research Institute of Ships and Ocean Engineering): not public.
+
+## Citation
+
+<details>
+  <summary><strong>See bibtex</strong></summary>
+
+```bibtex
 @inproceedings{kim2023robust,
   title={Robust Imaging Sonar-based Place Recognition and Localization in Underwater Environments},
   author={Kim, Hogyun and Kang, Gilhwan and Jeong, Seokhwan and Ma, Seungjun and Cho, Younggun},
@@ -98,67 +148,14 @@ efficient loop closure detection.
   year={2023},
   organization={IEEE}
 }
-</code>
-</pre>  
+```
 
+</details>
 
-## Thanks Sonar Context
-<pre>
-<code>
-@inproceedings{kim2018scan,
-  title={Scan context: Egocentric spatial descriptor for place recognition within 3d point cloud map},
-  author={Kim, Giseop and Kim, Ayoung},
-  booktitle={2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
-  pages={4802--4809},
-  year={2018},
-  organization={IEEE}
-}
-</code>
-</pre>  
+## Acknowledgements
 
-
-<pre>
-<code>
-@inproceedings{potokar2022holoocean,
-  title={Holoocean: An underwater robotics simulator},
-  author={Potokar, Easton and Ashford, Spencer and Kaess, Michael and Mangelson, Joshua G},
-  booktitle={2022 International Conference on Robotics and Automation (ICRA)},
-  pages={3040--3046},
-  year={2022},
-  organization={IEEE}
-}
-</code>
-</pre>  
-
-
-<pre>
-<code>
-@inproceedings{jang2021multi,
-  title={Multi-session underwater pose-graph slam using inter-session opti-acoustic two-view factor},
-  author={Jang, Hyesu and Yoon, Sungho and Kim, Ayoung},
-  booktitle={2021 IEEE International Conference on Robotics and Automation (ICRA)},
-  pages={11668--11674},
-  year={2021},
-  organization={IEEE}
-}
-</code>
-</pre>  
-
-
-<pre>
-<code>
-@article{dos2022cross,
-  title={Cross-view and cross-domain underwater localization based on optical aerial and acoustic underwater images},
-  author={Dos Santos, Matheus M and De Giacomo, Giovanni G and Drews-Jr, Paulo LJ and Botelho, Silvia SC},
-  journal={IEEE Robotics and Automation Letters},
-  volume={7},
-  number={2},
-  pages={4969--4974},
-  year={2022},
-  publisher={IEEE}
-}
-</code>
-</pre>  
+Sonar Context builds on [Scan Context](https://github.com/gisbi-kim/scancontext) (Kim and Kim, IROS 2018). The SLAM uses [DISO](https://github.com/SenseRoboticsLab/DISO) (Xu et al., ICRA 2024, GPLv3, a submodule) for odometry and [GTSAM](https://github.com/borglab/gtsam). Data: [Aracati 2017](https://github.com/matheusbg8/aracati2017) (dos Santos et al., RA-L 2022), [HoloOcean](https://github.com/byu-holoocean/HoloOcean) (Potokar et al., ICRA 2022); multi-session underwater SLAM: Jang et al., ICRA 2021. Related: [SOLiD](https://github.com/sparolab/SOLiD), [Commerge](https://github.com/sparolab/Commerge), [ReFeree](https://github.com/sparolab/ReFeree), [RadLoc](https://github.com/sparolab/RadLoc).
 
 ## License
-* For academic usage, the code is released under the BSD 3.0 license. For any commercial purpose, please contact the authors.
+
+BSD 3-Clause for academic use; for any commercial purpose, please contact the authors (hg.kim@inha.edu). DISO (`thirdparty/DISO`) is GPLv3 and is not part of this license.

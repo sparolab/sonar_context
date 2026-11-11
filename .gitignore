@@ -1,5 +1,6 @@
-pose_graph_slam/
-HOLOOCEAN/
-KRISO/
-ARACATI/
 __pycache__/
+*.egg-info/
+build/
+dist/
+/runs/
+.pytest_cache/
