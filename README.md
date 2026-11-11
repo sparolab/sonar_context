@@ -103,13 +103,13 @@ DISO is not deterministic from run to run (4.5 to 5.1 m here); the loops bring e
 
 ## :busts_in_silhouette: Multi-session SLAM
 
-[`applications/multi-session-slam`](applications/multi-session-slam): two sessions saved by the SLAM, each in its own frame, are aligned through inter-session Sonar Context loops (dense correlation, then the largest set that agrees on one transform) and optimized in one pose graph.
+[`applications/multi-session-slam`](applications/multi-session-slam): LT-SLAM style ([LT-mapper](https://github.com/gisbi-kim/lt-mapper)), as in [RadLoc](https://github.com/sparolab/RadLoc) and [ReFeree](https://github.com/sparolab/ReFeree): two sessions saved by the SLAM keep their own frames and get one anchor node each; inter-session Sonar Context loops, verified by dense correlation, connect them through the anchors (Cauchy kernel).
 
 ```bash
 sonar_context_align_sessions session_a/ session_b/ merged/ --threshold 0.25
 ```
 
-Aracati 2017 split in two sessions: 47 inter-session loops, 37 agree on one transform; the two sessions together come to **2.51 m** APE (17.88 m with session B left in its own frame; 1.96 m and 2.33 m for each session alone).
+Aracati 2017 split in two sessions: 47 inter-session loops (37 agree on one transform); the two sessions together come to **2.52 m** APE (17.88 m with session B left in its own frame; 1.96 m and 2.33 m for each session alone).
 
 ## :robot: Multi-robot SLAM with Commerge
 
@@ -154,7 +154,7 @@ New: `skip_range` drops the bright near field (on Aracati, 5 m), the polar image
 
 ## Acknowledgements
 
-Sonar Context builds on [Scan Context](https://github.com/gisbi-kim/scancontext) (Kim and Kim, IROS 2018). The SLAM uses [DISO](https://github.com/SenseRoboticsLab/DISO) (Xu et al., ICRA 2024, GPLv3, a submodule) for odometry and [GTSAM](https://github.com/borglab/gtsam). Data: [Aracati 2017](https://github.com/matheusbg8/aracati2017) (dos Santos et al., RA-L 2022), [HoloOcean](https://github.com/byu-holoocean/HoloOcean) (Potokar et al., ICRA 2022); multi-session underwater SLAM: Jang et al., ICRA 2021. Related: [SOLiD](https://github.com/sparolab/SOLiD), [Commerge](https://github.com/sparolab/Commerge), [ReFeree](https://github.com/sparolab/ReFeree), [RadLoc](https://github.com/sparolab/RadLoc).
+Sonar Context builds on [Scan Context](https://github.com/gisbi-kim/scancontext) (Kim and Kim, IROS 2018); the multi-session SLAM follows [LT-mapper](https://github.com/gisbi-kim/lt-mapper) (Kim et al., ICRA 2022). The SLAM uses [DISO](https://github.com/SenseRoboticsLab/DISO) (Xu et al., ICRA 2024, GPLv3, a submodule) for odometry and [GTSAM](https://github.com/borglab/gtsam). Data: [Aracati 2017](https://github.com/matheusbg8/aracati2017) (dos Santos et al., RA-L 2022), [HoloOcean](https://github.com/byu-holoocean/HoloOcean) (Potokar et al., ICRA 2022); multi-session underwater SLAM: Jang et al., ICRA 2021. Related: [SOLiD](https://github.com/sparolab/SOLiD), [Commerge](https://github.com/sparolab/Commerge), [ReFeree](https://github.com/sparolab/ReFeree), [RadLoc](https://github.com/sparolab/RadLoc).
 
 ## License
 
