@@ -143,19 +143,6 @@ The agent follows [`AGENTS.md`](AGENTS.md): it builds the Docker images, runs th
 
 ______________________________________________________________________
 
-## :wrench: What changed in v2
-
-The matching of the ICRA 2023 code had bugs, fixed in both libraries (the old code is at [v1.0.0](https://github.com/sparolab/sonar_context/tree/v1.0.0)):
-
-- the best bearing shift was read one entry off (`argmax + 1`), and could index past the array;
-- shift 0 (the same heading) was never tested;
-- the row search compared unshifted rows, so it had no effect;
-- a shift with no non-empty overlap divided by zero.
-
-New: `skip_range` drops the bright near field (on Aracati, 5 m), the polar image layout is explicit (`range_beam` / `beam_range`: Aracati's polar images are stored beams × range), and the descriptors of two sessions compare in one call (`column_similarity_matrix`, FFT-based).
-
-______________________________________________________________________
-
 ## Citation
 
 If you use Sonar Context in your research, please cite our [paper](https://ieeexplore.ieee.org/document/10161518).
